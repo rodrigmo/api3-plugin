@@ -8,7 +8,7 @@ class Log {
 
     static constraints = {
         data(blank: false, nullable: false)
-        descricao(blank: false, nullable: false, scale: 1000)
+        descricao(blank: false, nullable: false, maxSize: 1000)
     }
 
     static mapping = {
