@@ -1,3 +1,4 @@
+server.servlet.context-path: '/${info.app.name}'
 ---
 grails:
     profile: rest-api-plugin
