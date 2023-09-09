@@ -15,42 +15,64 @@ Neste desafio, será desenvolvido uma aplicação que irá consumir a api2 desen
 Criação do projeto
 O projeto deve ser criado com o comando create-plugin com o nome api3-plugin, utilize o profile rest-api-plugin.
 Após gerar o projeto, altere as seguintes linhas do build.gradle:
-  apply plugin:"org.grails.grails-plugin-publish"
-  //...
-  provided "org.springframework.boot:spring-boot-starter-tomcat"
+>  apply plugin:"org.grails.grails-plugin-publish"
+>
+>  //...
+>
+>  provided "org.springframework.boot:spring-boot-starter-tomcat"
+>
 Para:
-  apply plugin:"maven-publish"
-  //...
-  compileOnly "org.springframework.boot:spring-boot-starter-tomcat"
+>  apply plugin:"maven-publish"
+> 
+>  //...
+> 
+>  compileOnly "org.springframework.boot:spring-boot-starter-tomcat"
+> 
 
 #### Configuração de publish local
 Para o plugin ser utilizado na api3 ele deverá ser publicado localmente. Para configurar a publicação, adicioneo seguinte trecho ao fim do arquivo build.gradle:
-    publishing {
-      publications {
-        maven(MavenPublication) {
-          versionMapping {
-            usage('java-api') {
-              fromResolutionOf('runtimeClasspath')
-            }
-            usage('java-runtime') {
-              fromResolutionResult()
-            }
-          }
-          from components.java
-        }
-      }
-    }
+>     publishing {
+> 
+>       publications {
+> 
+>         maven(MavenPublication) {
+> 
+>           versionMapping {
+> 
+>             usage('java-api') {
+> 
+>               fromResolutionOf('runtimeClasspath')
+> 
+>             }
+> 
+>             usage('java-runtime') {
+> 
+>               fromResolutionResult()
+> 
+>             }
+> 
+>           }
+> 
+>           from components.java
+> 
+>         }
+> 
+>       }
+> 
+>     }
+> 
 Após isso, dentro da pasta do projeto, execute o seguinte comando no terminal para publicar o pluginlocalmente:
-./gradlew publishToMavenLocal
+> 
+> ./gradlew publishToMavenLocal
+> 
 
 Para cada vez que for publicar o plugin utilizando o comando acima, deverá ser alterado antes apropriedade version no build.gradle de maneira incremental, por exemplo:
 Primeira publicação -> executar comando
 Segunda publicação -> alterar versão para 0.2 -> executar comando
-Terceira publicação -> alterar versão para 0.3 -> executar comando
-etc.
+Terceira publicação -> alterar versão para 0.3 -> executar comando etc.
 Consequentemente deve ser alterada a versão da dependência na api3.
 
-Classe de domínio
+#### Classe de domínio
 A classe deverá utilizar o gerador de id increment;
 O versionamento deve estar desabilitado na classe;
 Devem também ser mapeados os atributos abaixo com suas respectivas constraints:
@@ -60,7 +82,7 @@ Atributo  Tipo      Nulo  Tamanho
 data      LocalDate Não   
 descricao String    Não   1000
 
-Service
+#### Service
 Deverá ser implementado um service chamado LogService, nele deve ser criado o método salvarLog que será responsável por gravar os dados na tabela de logs.
 
 ### Etapa 2 - Aplicação
@@ -78,24 +100,38 @@ Utilize a mesma configuração de contexto da aplicação do desafio 2.
 
 #### Server Port
 A api3 deverá ser executada na porta 8180, para configurar a porta padrão, adicione o seguinte trecho ao application.yml:
-    server: 
-      port:
-        8180
+>     server:
+> 
+>       port:
+> 
+>         8180
+> 
 
 #### Dependências
 Após finalizar a etapa 1, adicione o plugin como dependência ao projeto, faça as seguintes alterações no build.gradle:
-  // Adicionar o repositório local a lista de respositórios
-  repositories {
-    mavenLocal() // <- Adicione essa linha
-  // ...
-  }
-  // ...
-  
-  // Adicione a dependência do api3-plugin
-  dependencies {
-    implementation "api3.plugin:api3-plugin:0.1"
-    // ...
-  }
+> 
+>   // Adicionar o repositório local a lista de respositórios
+> 
+>   repositories {
+> 
+>     mavenLocal() // <- Adicione essa linha
+> 
+>   // ...
+> 
+>   }
+> 
+>   // ...
+>   
+>   // Adicione a dependência do api3-plugin
+> 
+>   dependencies {
+> 
+>     implementation "api3.plugin:api3-plugin:0.1"
+> 
+>     // ...
+> 
+>   }
+> 
 
 #### Endpoints
 A função da api3 será servir de "ponte" para a api2, desenvolvida no desafio anterior. Portanto:
@@ -106,10 +142,14 @@ A função da api3 será servir de "ponte" para a api2, desenvolvida no desafio 
 Adicionalmente a api3 terá que gravar na tabela de logs as respostas (JSON) de todos os controllers da api2 e somente das ações save , update e delete.
 
 Para a api3 se comunicar com a api2, sugerimos o plugin grails-datastore-rest-client, para adiciona-lo aoprojeto altere o build.gradle como demonstrado abaixo:
-    dependencies {
-      implementation "org.grails:grails-datastore-rest-client:6.1.9.RELEASE"
-      // ...
-    }
+>     dependencies {
+> 
+>       implementation "org.grails:grails-datastore-rest-client:6.1.9.RELEASE"
+> 
+>       // ...
+> 
+>     }
+> 
 
 Utilize este guia (https://github.com/grails-plugins/grails-rest-client-builder#basic-usage) para implementar a comunicação entre as APIs.
 Podem ser utilizadas outras bibliotecas para realizar as requisições se desejado.
