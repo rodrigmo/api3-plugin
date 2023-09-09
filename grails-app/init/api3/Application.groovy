@@ -1,4 +1,4 @@
-package api3.plugin
+package api3
 
 import grails.boot.*
 import grails.boot.config.GrailsAutoConfiguration

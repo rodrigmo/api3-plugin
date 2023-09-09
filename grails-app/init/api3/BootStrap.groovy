@@ -1,4 +1,4 @@
-package api3.plugin
+package api3
 
 class BootStrap {
 
