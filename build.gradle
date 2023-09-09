@@ -16,7 +16,7 @@ group "api3.plugin"
 apply plugin:"eclipse"
 apply plugin:"idea"
 apply plugin:"org.grails.grails-plugin"
-apply plugin:"org.grails.grails-plugin-publish"
+apply plugin:"maven-publish"
 apply plugin:"org.grails.plugins.views-json"
 
 repositories {
