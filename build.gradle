@@ -97,3 +97,18 @@ tasks.withType(Test) {
 // enable if you wish to package this plugin as a standalone application
 bootJar.enabled = false
 
+publishing {
+    publications {
+        maven(MavenPublication) {
+            versionMapping {
+                usage('java-api') {
+                    fromResolutionOf('runtimeClasspath')
+                }
+                usage('java-runtime') {
+                    fromResolutionResult()
+                }
+            }
+            from components.java
+        }
+    }
+}
