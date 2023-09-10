@@ -3,6 +3,6 @@ package api3
 class UrlMappings {
 
     static mappings = {
-        "/$controller/$action?/$id?"()
+        // provide plugin url mappings here
     }
 }
