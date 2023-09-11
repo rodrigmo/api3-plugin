@@ -5,6 +5,8 @@ import grails.web.api.ServletAttributes
 import org.grails.web.json.JSONObject
 import javax.servlet.http.HttpServletRequest
 import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 @Transactional
 class LogService implements ServletAttributes {
@@ -14,18 +16,24 @@ class LogService implements ServletAttributes {
 
     void salvarLog(HttpServletRequest request, JSONObject response) {
         String statusReq = !(response?.message || response?.errors) ? "Sucesso" : "Falha"
-        String operacaoReq = "DELETE"
-        if (request.method == 'POST') {
-            operacaoReq = "CREATE"
-        } else if (request.method == 'PUT') {
-            operacaoReq = "UPDATE"
+        String operacaoReq = "exclusão"
+        if (request.method == "POST") {
+            operacaoReq = "criação"
+        } else if (request.method == "PUT") {
+            operacaoReq = "alteração"
         }
-        String controllerReq = request.servletPath.substring(resource.indexOf("/") + 1).substring(0, resource.indexOf("/"))
+        String controllerReq = request.servletPath
 
         Log novoLog = new Log()
-        novoLog.data = LocalDate.now()
-        novoLog.descricao = statusReq + "na operação de " + operacaoReq + "em " + controllerReq
 
-        novoLog.save(flush: tue)
+        String dataLog
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss")
+        dataLog = LocalDateTime.now().format(formatter)
+        LocalDateTime data = LocalDateTime.parse(dataLog, formatter)
+        novoLog.data = data
+
+        novoLog.descricao = statusReq + " na " + operacaoReq + " em " + controllerReq +": " + response.toString()
+
+        novoLog.save(flush: true)
     }
 }

@@ -1,9 +1,11 @@
 package api3
 
-import java.time.LocalDate
+import org.hibernate.type.LocalDateTimeType
+
+import java.time.LocalDateTime
 
 class Log {
-    LocalDate data
+    LocalDateTime data
     String descricao
 
     static constraints = {
@@ -15,5 +17,7 @@ class Log {
         id generator: 'increment'
         version false
         table 'logs'
+        data column: "data_log", sqlType: "date"
+
     }
 }
